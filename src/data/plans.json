@@ -1,0 +1,26 @@
+[
+  {
+    "id": "wyze-cam-unlimited",
+    "image": "plan",
+    "badge": "Popular",
+    "name": "Cam Unlimited",
+    "description": "Unlimited cameras, smart alerts, 14-day cloud recording for every camera.",
+    "learnMoreLink": "#",
+    "originalPrice": 11.79,
+    "discountedPrice": 9.99,
+    "defaultQuantity": 1,
+    "billingCycle": "monthly"
+  },
+  {
+    "id": "wyze-cam-plus",
+    "image": "plan",
+    "badge": "",
+    "name": "Cam Plus",
+    "description": "Smart alerts and 14-day cloud recording for a single camera.",
+    "learnMoreLink": "#",
+    "originalPrice": 3.99,
+    "discountedPrice": 2.99,
+    "defaultQuantity": 0,
+    "billingCycle": "monthly"
+  }
+]

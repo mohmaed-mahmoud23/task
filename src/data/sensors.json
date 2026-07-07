@@ -1,0 +1,25 @@
+[
+  {
+    "id": "wyze-sense-motion",
+    "image": "sensor",
+    "badge": "",
+    "name": "Wyze Sense Motion Sensor",
+    "description": "Detects movement up to 30ft. Perfect for rooms and hallways.",
+    "learnMoreLink": "#",
+    "originalPrice": 12.99,
+    "discountedPrice": 9.99,
+    "defaultQuantity": 3
+  },
+  {
+    "id": "wyze-sense-hub",
+    "image": "hub",
+    "badge": "Included FREE",
+    "name": "Wyze Sense Hub (Required)",
+    "description": "The central hub for all your Wyze security devices.",
+    "learnMoreLink": "#",
+    "originalPrice": 29.99,
+    "discountedPrice": 0.00,
+    "defaultQuantity": 1,
+    "isFree": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "id": "wyze-microsd-256gb",
+    "image": "sdcard",
+    "badge": "Save 35%",
+    "name": "Wyze MicroSD Card 256GB",
+    "description": "Continuous local recording directly in your Wyze Cam.",
+    "learnMoreLink": "#",
+    "originalPrice": 19.99,
+    "discountedPrice": 12.99,
+    "defaultQuantity": 1
+  },
+  {
+    "id": "wyze-fast-shipping",
+    "image": "shipping",
+    "badge": "FREE",
+    "name": "Fast Shipping",
+    "description": "Delivered in 2-3 business days with full tracking.",
+    "learnMoreLink": "#",
+    "originalPrice": 5.99,
+    "discountedPrice": 0.00,
+    "defaultQuantity": 1,
+    "isFree": true
+  }
+]
