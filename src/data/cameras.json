@@ -13,7 +13,7 @@
     ],
     "originalPrice": 35.98,
     "discountedPrice": 27.98,
-    "defaultQuantity": 1
+    "defaultQuantity": 0
   },
   {
     "id": "Wyze Cam Pan v3",
@@ -28,7 +28,7 @@
     ],
     "originalPrice": 39.98,
     "discountedPrice": 34.98,
-    "defaultQuantity": 2
+    "defaultQuantity": 0
   },
   {
     "id": "Wyze Cam Floodlight v2",

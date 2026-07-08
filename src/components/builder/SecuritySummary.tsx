@@ -1,5 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import type { RootState } from "../../store/store";
+import { saveBuilder } from "../../store/builderThunks";
+import { toast } from "sonner";
 import {
   selectSelectedItems,
   selectTotalPrice,
@@ -85,11 +87,11 @@ function Thumb({ productId, imageType, section, selectedColor }: ThumbProps) {
 }
 
 export function SecuritySummary() {
-  const dispatch = useDispatch();
-  const selectedItems = useSelector(selectSelectedItems);
+const dispatch = useAppDispatch();
+  const selectedItems = useAppSelector(selectSelectedItems);
   const { originalTotal, discountedTotal, savings } =
-    useSelector(selectTotalPrice);
-  const fullState = useSelector((state: RootState) => state);
+    useAppSelector(selectTotalPrice);
+  const fullState = useAppSelector((state: RootState) => state);
 
   const cameras = selectedItems.filter((i) => i.section === "cameras");
   const plans = selectedItems.filter((i) => i.section === "plans");
@@ -123,9 +125,8 @@ export function SecuritySummary() {
                   </p>
                 </div>
                 {item.section === "plans" ||
-                  item.id === "wyze-fast-shipping" ? (
-                  <span className="text-[10px] text-gray-500 font-medium mr-4">
-                  </span>
+                item.id === "wyze-fast-shipping" ? (
+                  <span className="text-[10px] text-gray-500 font-medium mr-4"></span>
                 ) : (
                   <QuantityStepper
                     value={item.quantity}
@@ -153,14 +154,30 @@ export function SecuritySummary() {
                     }
                   />
                 )}
-                <div className="text-right min-w-[60px]">
+                {/* Price: inline on laptop (lg), stacked elsewhere */}
+                <div
+                  className="
+    flex
+    flex-col
+    items-end
+    gap-0.5
+    text-right
+
+    2xl:flex-row
+    2xl:items-center
+    2xl:gap-1.5
+  "
+                >
+                  {" "}
                   {!item.isFree && origPrice > finalPrice && (
-                    <span className="block text-[9px] text-gray-400 line-through leading-none">
+                    <span className="text-[9px] text-[#4E2FD2] line-through leading-none lg:leading-normal">
                       ${origPrice.toFixed(2)}
                     </span>
                   )}
                   <span
-                    className={`block text-xs font-bold leading-tight mt-0.5 ${item.isFree ? "text-emerald-600" : "text-gray-900"}`}
+                    className={`text-xs font-bold leading-tight lg:leading-normal ${
+                      item.isFree ? "text-emerald-600" : "text-gray-900"
+                    }`}
                   >
                     {item.isFree
                       ? "FREE"
@@ -181,11 +198,11 @@ export function SecuritySummary() {
       الـ layout: Horizontal، gap 52px بين اليسار واليمين
     */
     <div
-      className="rounded-xl border border-blue-100 overflow-hidden"
-      style={{ backgroundColor: "#EDF4FF", padding: "15px 15px 15px 15px" }}
+      className="rounded-xl border border-blue-100 overflow-hidden p-2 xl:p-[15px]"
+      style={{ backgroundColor: "#EDF4FF" }}
     >
-      <div className="flex flex-col md:flex-row" style={{ gap: "52px" }}>
-        {/* ══ يسار: Header + Items ══ */}
+      <div className="flex flex-col md:flex-row lg:flex-col xl:flex-row gap-6 md:gap-[52px] lg:gap-6 xl:gap-[52px]">
+        {/* Header + Items ══ */}
         <div className="flex-1 min-w-0 flex flex-col" style={{ gap: "5px" }}>
           {/* Header */}
           <div>
@@ -214,11 +231,44 @@ export function SecuritySummary() {
         </div>
 
         <div
-          className="flex-shrink-0 flex flex-col w-full  md:w-[486px]"
+          className="flex-shrink-0 flex flex-col w-full md:w-[486px] lg:w-full xl:w-[486px] gap-1 xl:gap-2"
           style={{ gap: "8px" }}
         >
-          {/* Guarantee seal row */}
-          <div className="flex items-center gap-3  rounded-xl p-3  ">
+          {/* Guarantee seal row — نفس التصميم في كل المقاسات (موبايل/تابلت/لاب)، وبس عند xl الشاشة الكبيرة بيرجع للتصميم التاني تحت */}
+          <div className="flex xl:hidden justify-between items-start px-0 md:px-2">
+            {" "}
+            {/* LEFT */}
+            <img
+              src={guaranteeSeal}
+              alt="Guarantee"
+              className="w-16 h-16 object-contain flex-shrink-0"
+            />
+            {/* RIGHT */}
+            <div className="flex flex-col items-end">
+              {/* Badge */}
+              <img
+                src={Frame}
+                alt="As low as"
+                className="h-7 object-contain mb-2"
+              />
+
+              {/* Prices */}
+              <div className="flex items-end gap-2">
+                {originalTotal > discountedTotal && (
+                  <span className="text-gray-400 line-through text-xs">
+                    ${originalTotal.toFixed(2)}
+                  </span>
+                )}
+
+                <span className="text-2xl font-black text-violet-700">
+                  ${discountedTotal.toFixed(2)}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Guarantee seal row — شاشة اللاب الكبيرة (xl) بس: التصميم القديم الأفقي */}
+          <div className="hidden xl:flex items-center gap-3 rounded-xl p-3">
             <img
               src={guaranteeSeal}
               alt="30-day guarantee"
@@ -234,22 +284,19 @@ export function SecuritySummary() {
               </p>
             </div>
           </div>
-
-          {/* as low as + السعر */}
-          <div className="flex items-center justify-between px-1">
-
+          <div className="hidden xl:flex items-center justify-between px-1">
             <img
               src={Frame}
               alt="as low as"
               className="h-7 object-contain object-left"
             />
-            <div className="text-right">
+            <div className="flex flex-col items-end text-right">
               {originalTotal > discountedTotal && (
-                <span className="block text-xs text-gray-400 line-through leading-none">
+                <span className="text-xs text-gray-400 line-through leading-none">
                   ${originalTotal.toFixed(2)}
                 </span>
               )}
-              <span className="block text-2xl font-black text-violet-700 leading-none">
+              <span className="text-2xl font-black text-violet-700 leading-none">
                 ${discountedTotal.toFixed(2)}
               </span>
             </div>
@@ -257,7 +304,7 @@ export function SecuritySummary() {
 
           {/* Savings */}
           {savings > 0 && (
-            <p className="text-center text-[11px] font-semibold text-emerald-800">
+            <p className="text-center text-[11px] font-semibold text-emerald-700 mt-2">
               Congrats! You're saving ${savings.toFixed(2)} on your security
               bundle!
             </p>
@@ -266,10 +313,7 @@ export function SecuritySummary() {
           {/* Checkout */}
           <button
             type="button"
-            onClick={() => {
-              console.log("=== CHECKOUT ===", fullState);
-              alert("Checkout logged in console!");
-            }}
+        
             className="w-full bg-violet-600 hover:bg-violet-700 active:bg-violet-800 text-white font-bold text-sm py-3   shadow-md shadow-violet-200 transition-colors"
           >
             Checkout
@@ -278,7 +322,17 @@ export function SecuritySummary() {
           {/* Save link */}
           <button
             type="button"
-            onClick={() => console.log("Saved:", fullState)}
+            onClick={() => {
+              try {
+                dispatch(saveBuilder());
+                toast.success("Saved successfully", {
+                  description: "Your security system has been saved. You can come back later and continue where you left off.",
+                  duration: 3000,
+                });
+              } catch (err) {
+                console.error("Failed to save system", err);
+              }
+            }}
             className="w-full text-[11px] font-semibold text-gray-500 text-center py-1 hover:underline"
           >
             Save my system for later

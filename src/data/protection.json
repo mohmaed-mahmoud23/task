@@ -8,7 +8,7 @@
     "learnMoreLink": "#",
     "originalPrice": 19.99,
     "discountedPrice": 12.99,
-    "defaultQuantity": 1
+    "defaultQuantity": 0
   },
   {
     "id": "wyze-fast-shipping",
@@ -19,7 +19,7 @@
     "learnMoreLink": "#",
     "originalPrice": 5.99,
     "discountedPrice": 0.00,
-    "defaultQuantity": 1,
+    "defaultQuantity": 0,
     "isFree": true
   }
 ]

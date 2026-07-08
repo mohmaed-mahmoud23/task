@@ -99,14 +99,14 @@ export function ProductCard({ product, section }: ProductCardProps) {
       // Frame spec (Figma): Width Fill 224.6px · Height Fill 331.1px
       // Radius 10px · Border 2px · Padding T15 R11 B15 L11 · BG #FFFFFF
       // Border color (selected): #4E2FD2 @ 70%
-      className={`relative flex flex-col
+      className={`relative flex flex-col lg:flex-row xl:flex-col
   w-full h-full
   rounded-[10px]
   border-2
   pt-[15px]
   px-[11px]
   pb-[15px]
-  gap-[19px]
+  gap-[19px] lg:gap-4 xl:gap-[19px]
   bg-white
   transition-all
   ${
@@ -131,13 +131,13 @@ export function ProductCard({ product, section }: ProductCardProps) {
       )}
 
       {/* Product Image */}
-      <div className="h-[82px] flex items-center justify-center">
+      <div className="h-[82px] lg:w-[82px] lg:h-[82px] xl:w-auto xl:h-[82px] flex items-center justify-center flex-shrink-0">
         <div className="h-full flex items-center justify-center">
           {imgSrc && (
             <img
               src={imgSrc}
               alt={product.name}
-              className="max-h-[74px] max-w-[140px] object-contain"
+              className="max-h-[74px] max-w-[140px] lg:max-w-[82px] xl:max-w-[140px] object-contain"
             />
           )}
         </div>
@@ -145,7 +145,7 @@ export function ProductCard({ product, section }: ProductCardProps) {
 
       {/* Details — no extra padding here; the outer card already
           provides T15/R11/B15/L11 and the 19px gap from Figma */}
-      <div className="flex flex-col gap-[8px] flex-1">
+      <div className="flex flex-col gap-[8px] flex-1 min-w-0">
         <div>
           <h4 className="text-[11px] font-bold text-gray-900 leading-tight">
             {product.name}
@@ -194,16 +194,16 @@ export function ProductCard({ product, section }: ProductCardProps) {
             }
           />
 
-          <div className="flex items-center .5gap-1 whitespace-nowrap">
+          <div className="flex flex-col items-end lg:flex-row lg:items-center lg:gap-1.5">
+            {" "}
             {product.originalPrice > product.discountedPrice &&
               !product.isFree && (
-                <span className="text-[10px] text-red-500 line-through">
+                <span className="text-[10px] text-red-500 line-through leading-none lg:leading-normal xl:leading-none">
                   ${product.originalPrice.toFixed(2)}
                 </span>
               )}
-
             <span
-              className={`text-[16px] font-light ${
+              className={`text-[16px] font-light leading-none lg:leading-normal xl:leading-none mt-0.5 lg:mt-0 xl:mt-0.5 ${
                 product.isFree ? "text-emerald-600" : "text-gray-500"
               }`}
             >

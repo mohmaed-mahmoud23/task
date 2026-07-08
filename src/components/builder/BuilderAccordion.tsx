@@ -82,6 +82,7 @@ function PlanIcon() {
 }
 
 // Sensor icon: wifi/signal arcs (concentric arcs around center dot)
+/*
 function SensorIcon() {
   return (
     <svg
@@ -96,15 +97,17 @@ function SensorIcon() {
       className="flex-shrink-0"
     >
       <circle cx="12" cy="12" r="2.5" fill="#9CA3AF" />
-      {/* Left waves */}
+      {/* Left waves * /}
       <path d="M8.5 8.5c-2 2-2 5 0 7M5.5 5.5c-3.6 3.6-3.6 9.4 0 13" />
-      {/* Right waves */}
+      {/* Right waves * /}
       <path d="M15.5 8.5c2 2 2 5 0 7M18.5 5.5c3.6 3.6 3.6 9.4 0 13" />
     </svg>
   );
 }
+*/
 
 // Protection icon: shield with checkmark inside
+/*
 function ProtectionIcon() {
   return (
     <svg
@@ -131,6 +134,7 @@ function ProtectionIcon() {
     </svg>
   );
 }
+*/
 
 // ── Chevron ───────────────────────────────────────────────────────────────────
 function ChevronDown() {
@@ -199,10 +203,18 @@ function ProductGrid({ products, section }: ProductGridProps) {
   if (section === "cameras") {
     return (
       <>
-        {/* Mobile (< xl): 2-column grid */}
-        <div className="grid grid-cols-2 gap-4 xl:hidden">
+        {/* Mobile (<lg): 1-column stack */}
+        <div className="grid grid-cols-1 gap-4 lg:hidden">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} section={section} />
+          ))}
+        </div>
+        {/* Laptop (lg–xl): 2-column grid — cards go horizontal inside; last odd card centers */}
+        <div className="hidden lg:grid xl:hidden grid-cols-2 gap-4 items-stretch [&>*:last-child:nth-child(odd)]:col-span-2 [&>*:last-child:nth-child(odd)]:justify-self-center [&>*:last-child:nth-child(odd)]:w-1/2">
+          {products.map((product) => (
+            <div key={product.id} className="h-full w-full">
+              <ProductCard product={product} section={section} />
+            </div>
           ))}
         </div>
         {/*
@@ -223,10 +235,18 @@ function ProductGrid({ products, section }: ProductGridProps) {
 
   return (
     <>
-      {/* Mobile (< xl): 2-column grid — Frame 1736 */}
-      <div className="grid grid-cols-2 gap-4 xl:hidden">
+      {/* Mobile (<lg): 1-column stack */}
+      <div className="grid grid-cols-1 gap-4 lg:hidden">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} section={section} />
+        ))}
+      </div>
+      {/* Laptop (lg–xl): 2-column grid */}
+      <div className="hidden lg:grid xl:hidden grid-cols-2 gap-4 items-stretch">
+        {products.map((product) => (
+          <div key={product.id} className="h-full">
+            <ProductCard product={product} section={section} />
+          </div>
         ))}
       </div>
       {/* Desktop (xl+): horizontal scroll row — Frame 1735 */}
@@ -273,18 +293,18 @@ export function BuilderAccordion() {
     }, 120);
   }
 
-  return (
-    <Accordion
-      value={openItems}
-      onValueChange={setOpenItems}
-      className="flex flex-col gap-4 w-full"
-    >
-      {/* STEP 1: Cameras */}
-      <AccordionItem
-        id="accordion-cameras"
-        value="cameras"
-        className="border border-blue-200 rounded-xl bg-blue-50 shadow-sm overflow-hidden"
+    return (
+      <Accordion
+        value={openItems}
+        onValueChange={setOpenItems}
+        className="flex flex-col gap-4 w-full"
       >
+        {/* STEP 1: Cameras */}
+        <AccordionItem
+          id="accordion-cameras"
+          value="cameras"
+          className="border-t-[1px] border-b-[0.5px] border-[#1F1F1F]  bg-blue-50 shadow-sm overflow-hidden"
+        >
         <AccordionTrigger className="px-5 py-4 hover:no-underline [&>svg]:hidden">
           <div className="flex items-center justify-between w-full">
             <StepHeader
@@ -318,7 +338,7 @@ export function BuilderAccordion() {
       <AccordionItem
         id="accordion-plan"
         value="plan"
-        className="bordershadow-sm overflow-hidden"
+        className="border-t-[0.5px] border-b-[0.5px] border-[#1F1F1F] shadow-sm overflow-hidden"
       >
         <AccordionTrigger className="px-5 py-4 border-blue-20 hover:no-underline [&>svg]:hidden">
           <div className="flex items-center justify-between w-full">
@@ -349,7 +369,7 @@ export function BuilderAccordion() {
       <AccordionItem
         id="accordion-sensors"
         value="sensors"
-        className="border rounded-xl shadow-sm overflow-hidden"
+        className="border-t-[0.5px] border-b-[0.5px] border-[#1F1F1F]  shadow-sm overflow-hidden"
       >
         <AccordionTrigger className="px-5 py-4 hover:no-underline [&>svg]:hidden">
           <div className="flex items-center justify-between w-full">
@@ -390,7 +410,7 @@ export function BuilderAccordion() {
       <AccordionItem
         id="accordion-protection"
         value="protection"
-        className="border rounded-xl  shadow-sm overflow-hidden"
+        className="border-t-[0.5px] border-b-[0.5px] border-[#1F1F1F]  shadow-sm overflow-hidden"
       >
         <AccordionTrigger className="px-5 py-4 hover:no-underline [&>svg]:hidden">
           <div className="flex items-center justify-between w-full">

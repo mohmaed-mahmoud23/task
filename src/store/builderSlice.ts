@@ -82,11 +82,32 @@ export const builderSlice = createSlice({
     selectPlan: (state, action: PayloadAction<string>) => {
       state.plans.selectedPlanId = action.payload;
     },
+
+
+
+setBuilderState: (
+  _state,
+  action: PayloadAction<BuilderState>
+) => {
+  return action.payload;
+},
+
   },
+
+
+
+
+
+  
 });
 
-export const { incrementQuantity, decrementQuantity, setColor, selectPlan } = builderSlice.actions;
-
+export const {
+  incrementQuantity,
+  decrementQuantity,
+  setColor,
+  selectPlan,
+  setBuilderState,
+} = builderSlice.actions;
 // Selectors
 export const selectBuilderState = (state: { builder: BuilderState }) => state.builder;
 

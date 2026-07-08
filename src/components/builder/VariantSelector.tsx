@@ -64,10 +64,10 @@ export function VariantSelector({
             key={color}
             type="button"
             onClick={() => onSelect(color)}
-            className={`flex items-center gap-1 px-1.5 py-0.5 rounded border transition-all duration-100 text-[8.5px] font-bold bg-white select-none whitespace-nowrap ${
+            className={`flex items-center gap-1 px-1.5 py-0.5 rounded transition-all duration-100 text-[8.5px] font-bold bg-white select-none whitespace-nowrap ${
               isSelected
-                ? "border-violet-600 text-violet-700 bg-violet-50/20"
-                : "border-gray-200 text-gray-600 hover:border-gray-300"
+                ? "border-2 border-[#0AA288] text-[#0AA288] bg-[#0AA288]/5"
+                : "border border-gray-200 text-gray-600 hover:border-gray-300"
             }`}
           >
             <img

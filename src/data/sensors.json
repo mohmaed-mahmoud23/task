@@ -8,7 +8,7 @@
     "learnMoreLink": "#",
     "originalPrice": 12.99,
     "discountedPrice": 9.99,
-    "defaultQuantity": 3
+    "defaultQuantity": 0
   },
   {
     "id": "wyze-sense-hub",
@@ -19,7 +19,7 @@
     "learnMoreLink": "#",
     "originalPrice": 29.99,
     "discountedPrice": 0.00,
-    "defaultQuantity": 1,
+    "defaultQuantity": 0,
     "isFree": true
   }
 ]
