@@ -15,7 +15,7 @@ export default function App() {
         >
           {/* ── Mobile-only: Let's get started banner ── */}
           <div className="sm:hidden mb-4">
-            <div className=" rounded-lg py-3 text-center bg-white">
+            <div className=" rounded-lg py-3 text-center">
               <span className="text-shadow-black font-black text-[31.88px]">
                 Let's get started!
               </span>

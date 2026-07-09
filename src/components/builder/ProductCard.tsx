@@ -65,7 +65,10 @@ function resolveImg(
     return col === "black" ? floodlightBlack : floodlightWhite;
   }
   if (id.includes("doorbell")) return doorbellImg;
-  if (id.includes("battery-cam")) return batteryProWhite;
+  if (id.includes("battery-cam")) {
+    // Black variant is achieved via CSS filter on the white image (see imgStyle below)
+    return batteryProWhite;
+  }
 
   // Sensors & accessories
   if (imageType === "sensor") return motionSensorImg;
@@ -138,6 +141,12 @@ export function ProductCard({ product, section }: ProductCardProps) {
               src={imgSrc}
               alt={product.name}
               className="max-h-[74px] max-w-[140px] lg:max-w-[82px] xl:max-w-[140px] object-contain"
+              style={
+                product.id.toLowerCase().includes("battery-cam") &&
+                selectedColor?.toLowerCase() === "black"
+                  ? { filter: "brightness(0.35) grayscale(1) contrast(1.1)" }
+                  : undefined
+              }
             />
           )}
         </div>

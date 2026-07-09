@@ -140,7 +140,7 @@ function ProtectionIcon() {
 function ChevronDown() {
   return (
     <svg
-      className="w-3.5 h-3.5 text-gray-400 transition-transform duration-200 group-data-[state=open]:rotate-180 group-data-[state=open]:text-blue-600 flex-shrink-0"
+      className="w-3.5 h-3.5 text-[#4E2FD2] transition-transform duration-200 group-data-[state=open]:rotate-180 flex-shrink-0"
       fill="currentColor"
       viewBox="0 0 24 24"
     >

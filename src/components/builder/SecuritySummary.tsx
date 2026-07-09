@@ -87,7 +87,7 @@ function Thumb({ productId, imageType, section, selectedColor }: ThumbProps) {
 }
 
 export function SecuritySummary() {
-const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const selectedItems = useAppSelector(selectSelectedItems);
   const { originalTotal, discountedTotal, savings } =
     useAppSelector(selectTotalPrice);
@@ -102,7 +102,7 @@ const dispatch = useAppDispatch();
     if (items.length === 0) return null;
     return (
       <div>
-        <p className="text-[9px] font-black tracking-widest uppercase text-gray-400 mb-1 border-b border-gray-100 pb-1">
+        <p className="text-[9px] font-black tracking-widest uppercase text-gray-400 mb-1">
           {title}
         </p>
         <div className="divide-y divide-gray-50">
@@ -125,7 +125,7 @@ const dispatch = useAppDispatch();
                   </p>
                 </div>
                 {item.section === "plans" ||
-                item.id === "wyze-fast-shipping" ? (
+                  item.id === "wyze-fast-shipping" ? (
                   <span className="text-[10px] text-gray-500 font-medium mr-4"></span>
                 ) : (
                   <QuantityStepper
@@ -168,16 +168,15 @@ const dispatch = useAppDispatch();
     2xl:gap-1.5
   "
                 >
-                  {" "}
+
                   {!item.isFree && origPrice > finalPrice && (
-                    <span className="text-[9px] text-[#4E2FD2] line-through leading-none lg:leading-normal">
+                    <span className="text-[9px] text-gray-600 line-through leading-none lg:leading-normal">
                       ${origPrice.toFixed(2)}
                     </span>
                   )}
                   <span
-                    className={`text-xs font-bold leading-tight lg:leading-normal ${
-                      item.isFree ? "text-emerald-600" : "text-gray-900"
-                    }`}
+                    className={`text-xs font-bold leading-tight lg:leading-normal ${item.isFree ? "text-[#4E2FD2]" : "text-[#4E2FD2]"
+                      }`}
                   >
                     {item.isFree
                       ? "FREE"
@@ -191,6 +190,16 @@ const dispatch = useAppDispatch();
       </div>
     );
   };
+
+  // Ordered list of sections so we can add a divider BETWEEN sections
+  // (Cameras / Sensors / Accessories / Plan) — only between them, not
+  // before the first one.
+  const orderedSections = [
+    { title: "Cameras", items: cameras },
+    { title: "Sensors", items: sensors },
+    { title: "Accessories", items: accessories },
+    { title: "Plan", items: plans },
+  ].filter((s) => s.items.length > 0);
 
   return (
     /*
@@ -206,7 +215,16 @@ const dispatch = useAppDispatch();
         <div className="flex-1 min-w-0 flex flex-col" style={{ gap: "5px" }}>
           {/* Header */}
           <div>
-            <h2 className="text-base font-black text-gray-900">
+            <h2
+              className="text-gray-900"
+              style={{
+                fontWeight: 400,
+                fontSize: "28px",
+                lineHeight: "100%",
+                letterSpacing: "0.6px",
+                verticalAlign: "middle",
+              }}
+            >
               Your security system
             </h2>
             <p className="text-[11px] text-gray-500 mt-0.5 leading-snug">
@@ -222,10 +240,12 @@ const dispatch = useAppDispatch();
             </p>
           ) : (
             <div className="flex flex-col gap-4">
-              {renderSection("Cameras", cameras)}
-              {renderSection("Sensors", sensors)}
-              {renderSection("Accessories", accessories)}
-              {renderSection("Plan", plans)}
+              {orderedSections.map((s) => (
+                <div key={s.title}>
+                  <hr className="border-t border-gray-200 mb-3" />
+                  {renderSection(s.title, s.items)}
+                </div>
+              ))}
             </div>
           )}
         </div>
@@ -313,7 +333,6 @@ const dispatch = useAppDispatch();
           {/* Checkout */}
           <button
             type="button"
-        
             className="w-full bg-violet-600 hover:bg-violet-700 active:bg-violet-800 text-white font-bold text-sm py-3   shadow-md shadow-violet-200 transition-colors"
           >
             Checkout
@@ -326,7 +345,8 @@ const dispatch = useAppDispatch();
               try {
                 dispatch(saveBuilder());
                 toast.success("Saved successfully", {
-                  description: "Your security system has been saved. You can come back later and continue where you left off.",
+                  description:
+                    "Your security system has been saved. You can come back later and continue where you left off.",
                   duration: 3000,
                 });
               } catch (err) {
