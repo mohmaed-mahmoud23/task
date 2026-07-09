@@ -6,7 +6,9 @@ import protectionData from "../data/protection.json";
 
 // TypeScript Interfaces
 export interface CameraStateItem {
-  quantity: number;
+  /** Quantity per color variant. Key is the lowercase color name.
+   *  Cameras without colors use the sentinel key "__default__". */
+  variantQuantities: Record<string, number>;
   selectedColor?: string;
 }
 
@@ -26,12 +28,25 @@ export interface BuilderState {
 // Helper to find initial selected plan
 const initialPlan = plansData.find((p) => p.defaultQuantity > 0) || plansData[0];
 
+// Helper: canonical key for a camera variant
+const variantKey = (color?: string) =>
+  color ? color.toLowerCase() : "__default__";
+
 // Initial State built from JSON default values
 const initialState: BuilderState = {
   cameras: camerasData.reduce((acc, cam) => {
+    const hasColors = cam.colors && cam.colors.length > 0;
+    const variantQuantities: Record<string, number> = {};
+    if (hasColors) {
+      (cam.colors as string[]).forEach((c) => {
+        variantQuantities[c.toLowerCase()] = 0;
+      });
+    } else {
+      variantQuantities["__default__"] = cam.defaultQuantity;
+    }
     acc[cam.id] = {
-      quantity: cam.defaultQuantity,
-      selectedColor: cam.colors && cam.colors.length > 0 ? cam.colors[0] : undefined,
+      variantQuantities,
+      selectedColor: hasColors ? (cam.colors as string[])[0] : undefined,
     };
     return acc;
   }, {} as Record<string, CameraStateItem>),
@@ -54,20 +69,38 @@ export const builderSlice = createSlice({
   reducers: {
     incrementQuantity: (
       state,
-      action: PayloadAction<{ section: "cameras" | "sensors" | "protection"; id: string }>
+      action: PayloadAction<{ section: "cameras" | "sensors" | "protection"; id: string; color?: string }>
     ) => {
-      const { section, id } = action.payload;
-      if (state[section] && state[section][id]) {
-        state[section][id].quantity += 1;
+      const { section, id, color } = action.payload;
+      if (section === "cameras") {
+        const cam = state.cameras[id];
+        if (cam) {
+          const key = variantKey(color ?? cam.selectedColor);
+          cam.variantQuantities[key] = (cam.variantQuantities[key] ?? 0) + 1;
+        }
+      } else {
+        if (state[section] && state[section][id]) {
+          (state[section][id] as GenericStateItem).quantity += 1;
+        }
       }
     },
     decrementQuantity: (
       state,
-      action: PayloadAction<{ section: "cameras" | "sensors" | "protection"; id: string }>
+      action: PayloadAction<{ section: "cameras" | "sensors" | "protection"; id: string; color?: string }>
     ) => {
-      const { section, id } = action.payload;
-      if (state[section] && state[section][id] && state[section][id].quantity > 0) {
-        state[section][id].quantity -= 1;
+      const { section, id, color } = action.payload;
+      if (section === "cameras") {
+        const cam = state.cameras[id];
+        if (cam) {
+          const key = variantKey(color ?? cam.selectedColor);
+          if ((cam.variantQuantities[key] ?? 0) > 0) {
+            cam.variantQuantities[key] -= 1;
+          }
+        }
+      } else {
+        if (state[section] && state[section][id] && (state[section][id] as GenericStateItem).quantity > 0) {
+          (state[section][id] as GenericStateItem).quantity -= 1;
+        }
       }
     },
     setColor: (
@@ -77,6 +110,11 @@ export const builderSlice = createSlice({
       const { section, id, color } = action.payload;
       if (state[section] && state[section][id]) {
         state[section][id].selectedColor = color;
+        // Ensure the new variant slot exists
+        const key = variantKey(color);
+        if (state[section][id].variantQuantities[key] === undefined) {
+          state[section][id].variantQuantities[key] = 0;
+        }
       }
     },
     selectPlan: (state, action: PayloadAction<string>) => {
@@ -113,6 +151,8 @@ export const selectBuilderState = (state: { builder: BuilderState }) => state.bu
 
 export interface SelectedItemDetails {
   id: string;
+  /** For camera variants, this is the real product id (without the color suffix). */
+  baseId?: string;
   name: string;
   image: string;
   quantity: number;
@@ -129,20 +169,44 @@ export const selectSelectedItems = (state: { builder: BuilderState }): SelectedI
   const { cameras, plans, sensors, protection } = state.builder;
   const list: SelectedItemDetails[] = [];
 
-  // Cameras
+  // Cameras — emit one entry per variant that has qty > 0
   camerasData.forEach((cam) => {
     const stateCam = cameras[cam.id];
-    if (stateCam && stateCam.quantity > 0) {
-      list.push({
-        id: cam.id,
-        name: cam.name,
-        image: cam.image,
-        quantity: stateCam.quantity,
-        originalPrice: cam.originalPrice,
-        discountedPrice: cam.discountedPrice,
-        selectedColor: stateCam.selectedColor,
-        section: "cameras",
+    if (!stateCam) return;
+    const hasColors = cam.colors && cam.colors.length > 0;
+    if (hasColors) {
+      (cam.colors as string[]).forEach((color) => {
+        const key = color.toLowerCase();
+        const qty = stateCam.variantQuantities[key] ?? 0;
+        if (qty > 0) {
+          list.push({
+            // Use a composite id so each variant is a distinct Review row
+            id: `${cam.id}__${key}`,
+            baseId: cam.id,
+            name: `${cam.name} (${color})`,
+            image: cam.image,
+            quantity: qty,
+            originalPrice: cam.originalPrice,
+            discountedPrice: cam.discountedPrice,
+            selectedColor: color,
+            section: "cameras",
+          });
+        }
       });
+    } else {
+      const qty = stateCam.variantQuantities["__default__"] ?? 0;
+      if (qty > 0) {
+        list.push({
+          id: cam.id,
+          name: cam.name,
+          image: cam.image,
+          quantity: qty,
+          originalPrice: cam.originalPrice,
+          discountedPrice: cam.discountedPrice,
+          selectedColor: stateCam.selectedColor,
+          section: "cameras",
+        });
+      }
     }
   });
 

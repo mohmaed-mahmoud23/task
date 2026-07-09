@@ -12,7 +12,7 @@ function isValidBuilderState(data: any): data is BuilderState {
     if (Object.prototype.hasOwnProperty.call(data.cameras, key)) {
       const item = data.cameras[key];
       if (!item || typeof item !== "object") return false;
-      if (typeof item.quantity !== "number") return false;
+      if (!item.variantQuantities || typeof item.variantQuantities !== "object") return false;
       if (item.selectedColor !== undefined && typeof item.selectedColor !== "string") return false;
     }
   }

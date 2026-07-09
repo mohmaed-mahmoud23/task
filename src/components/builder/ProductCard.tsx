@@ -82,15 +82,21 @@ function resolveImg(
 export function ProductCard({ product, section }: ProductCardProps) {
   const dispatch = useDispatch();
 
-  const quantity = useSelector(
-    (state: RootState) => state.builder[section]?.[product.id]?.quantity ?? 0,
-  );
-
   const selectedColor = useSelector((state: RootState) => {
     if (section === "cameras") {
       return state.builder.cameras[product.id]?.selectedColor;
     }
     return undefined;
+  });
+
+  const quantity = useSelector((state: RootState) => {
+    if (section === "cameras") {
+      const cam = state.builder.cameras[product.id];
+      if (!cam) return 0;
+      const key = selectedColor ? selectedColor.toLowerCase() : "__default__";
+      return cam.variantQuantities[key] ?? 0;
+    }
+    return (state.builder[section] as Record<string, { quantity: number }>)?.[product.id]?.quantity ?? 0;
   });
 
   const isSelected = quantity > 0;

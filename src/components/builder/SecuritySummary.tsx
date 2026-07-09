@@ -114,7 +114,7 @@ export function SecuritySummary() {
             return (
               <div key={item.id} className="flex items-center gap-3 py-2">
                 <Thumb
-                  productId={item.id}
+                  productId={item.baseId ?? item.id}
                   imageType={item.image}
                   section={item.section}
                   selectedColor={item.selectedColor}
@@ -137,7 +137,8 @@ export function SecuritySummary() {
                             | "cameras"
                             | "sensors"
                             | "protection",
-                          id: item.id,
+                          id: item.baseId ?? item.id,
+                          color: item.selectedColor,
                         }),
                       )
                     }
@@ -148,7 +149,8 @@ export function SecuritySummary() {
                             | "cameras"
                             | "sensors"
                             | "protection",
-                          id: item.id,
+                          id: item.baseId ?? item.id,
+                          color: item.selectedColor,
                         }),
                       )
                     }

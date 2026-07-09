@@ -268,7 +268,7 @@ export function BuilderAccordion() {
   // Calculate selection counts to display in triggers
   const camerasCount = useSelector((state: RootState) =>
     Object.values(state.builder.cameras).reduce(
-      (acc, c) => acc + c.quantity,
+      (acc, c) => acc + Object.values(c.variantQuantities).reduce((s, n) => s + n, 0),
       0,
     ),
   );
