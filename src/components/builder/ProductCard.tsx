@@ -134,13 +134,14 @@ export function ProductCard({ product, section }: ProductCardProps) {
       )}
 
       {/* Product Image */}
-      <div className="h-[82px] lg:w-[82px] lg:h-[82px] xl:w-auto xl:h-[82px] flex items-center justify-center flex-shrink-0">
+      {/* Product Image */}
+      <div className="h-[104px] lg:w-[104px] lg:h-[104px] xl:w-auto xl:h-[104px] flex items-center justify-center flex-shrink-0">
         <div className="h-full flex items-center justify-center">
           {imgSrc && (
             <img
               src={imgSrc}
               alt={product.name}
-              className="max-h-[74px] max-w-[140px] lg:max-w-[82px] xl:max-w-[140px] object-contain"
+              className="max-h-[96px] max-w-[170px] lg:max-w-[104px] xl:max-w-[170px] object-contain"
               style={
                 product.id.toLowerCase().includes("battery-cam") &&
                 selectedColor?.toLowerCase() === "black"

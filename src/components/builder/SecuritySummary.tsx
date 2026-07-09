@@ -203,9 +203,7 @@ export function SecuritySummary() {
 
   return (
     /*
-      الـ parent: bg #EDF4FF، border، padding 15px top، gap 5px — من الـ Figma Frame 1736
-      الـ layout: Horizontal، gap 52px بين اليسار واليمين
-    */
+     */
     <div
       className="rounded-xl border border-blue-100 overflow-hidden p-2 xl:p-[15px]"
       style={{ backgroundColor: "#EDF4FF" }}
@@ -254,7 +252,6 @@ export function SecuritySummary() {
           className="flex-shrink-0 flex flex-col w-full md:w-[486px] lg:w-full xl:w-[486px] gap-1 xl:gap-2"
           style={{ gap: "8px" }}
         >
-          {/* Guarantee seal row — نفس التصميم في كل المقاسات (موبايل/تابلت/لاب)، وبس عند xl الشاشة الكبيرة بيرجع للتصميم التاني تحت */}
           <div className="flex xl:hidden justify-between items-start px-0 md:px-2">
             {" "}
             {/* LEFT */}
@@ -287,18 +284,17 @@ export function SecuritySummary() {
             </div>
           </div>
 
-          {/* Guarantee seal row — شاشة اللاب الكبيرة (xl) بس: التصميم القديم الأفقي */}
           <div className="hidden xl:flex items-center gap-3 rounded-xl p-3">
             <img
               src={guaranteeSeal}
               alt="30-day guarantee"
-              className="w-16 h-16 flex-shrink-0 object-contain"
+              className="w-[131px] h-[131px] flex-shrink-0 object-contain"
             />
             <div>
               <p className="text-[13px] font-bold text-gray-800 leading-tight">
                 30-day hassle-free returns
               </p>
-              <p className="text-[11px] text-gray-500 leading-snug mt-1">
+              <p className="text-sm text-gray-600 leading-snug mt-1">
                 If you're not totally in love with the product, we will refund
                 you 100%.
               </p>
@@ -310,7 +306,7 @@ export function SecuritySummary() {
               alt="as low as"
               className="h-7 object-contain object-left"
             />
-            <div className="flex flex-col items-end text-right">
+            <div className="flex flex-row items-baseline gap-2 text-right">
               {originalTotal > discountedTotal && (
                 <span className="text-xs text-gray-400 line-through leading-none">
                   ${originalTotal.toFixed(2)}
