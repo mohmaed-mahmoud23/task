@@ -163,7 +163,7 @@ export function ProductCard({ product, section }: ProductCardProps) {
           provides T15/R11/B15/L11 and the 19px gap from Figma */}
       <div className="flex flex-col gap-[8px] flex-1 min-w-0">
         <div>
-          <h4 className="text-[11px] font-bold text-gray-900 leading-tight">
+          <h4 className="text-[11px] font-bold text-gray-900 leading-tight pb-1">
             {product.name}
           </h4>
           <p className="text-[10px] text-gray-500 leading-snug">
