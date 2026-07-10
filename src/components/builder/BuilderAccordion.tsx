@@ -149,29 +149,7 @@ function ChevronDown() {
   );
 }
 
-// ── Step Header ───────────────────────────────────────────────────────────────
-interface StepHeaderProps {
-  step: number;
-  total: number;
-  title: string;
-  icon: React.ReactNode;
-}
 
-function StepHeader({ step, total, title, icon }: StepHeaderProps) {
-  return (
-    <div className="flex items-center gap-3.5 flex-1">
-      {icon}
-      <div className="flex flex-col gap-0.5">
-        <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none">
-          Step {step} of {total}
-        </span>
-        <span className="text-sm font-bold text-gray-800 leading-tight">
-          {title}
-        </span>
-      </div>
-    </div>
-  );
-}
 
 // ── Next Step Button ──────────────────────────────────────────────────────────
 interface NextButtonProps {
@@ -294,26 +272,33 @@ export function BuilderAccordion() {
   }
 
     return (
-      <Accordion
-        value={openItems}
-        onValueChange={setOpenItems}
-        className="flex flex-col gap-4 w-full"
-      >
-        {/* STEP 1: Cameras */}
-        <AccordionItem
-          id="accordion-cameras"
-          value="cameras"
-          className="border-t-[1px] border-b-[0.5px] border-[#1F1F1F]  bg-blue-50 shadow-sm overflow-hidden"
+      <div className="flex flex-col w-full">
+        {/* STEP 1 OF 4 label */}
+        <div  className="px-2">
+          <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+            Step 1 of 4
+          </span>
+        </div>
+        <Accordion
+          value={openItems}
+          onValueChange={setOpenItems}
+          className="flex flex-col  w-full"
         >
-        <AccordionTrigger className="px-5 py-4 hover:no-underline [&>svg]:hidden">
-          <div className="flex items-center justify-between w-full">
-            <StepHeader
-              step={1}
-              total={4}
-              title="Choose your cameras"
-              icon={<CameraIcon />}
-            />
-            <div className="flex items-center gap-1">
+          {/* STEP 1: Cameras */}
+          <AccordionItem
+            id="accordion-cameras"
+            value="cameras"
+            className="border-t-[1px] border-b-[0.5px] border-[#1F1F1F]  bg-blue-50 shadow-sm overflow-hidden"
+          >
+          <AccordionTrigger className="px-2 py-4 hover:no-underline [&>svg]:hidden">
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center gap-1.5 flex-1">
+                <CameraIcon />
+                <span className="text-sm font-bold text-gray-800 leading-tight">
+                  Choose your cameras
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
               {camerasCount > 0 && (
                 <span className="text-xs font-bold text-[#4E2FD2] mr-1">
                   {camerasCount} selected
@@ -335,113 +320,128 @@ export function BuilderAccordion() {
       </AccordionItem>
 
       {/* STEP 2: Plan */}
-      <AccordionItem
-        id="accordion-plan"
-        value="plan"
-        className="border-t-[0.5px] border-b-[0.5px] border-[#1F1F1F] shadow-sm overflow-hidden"
-      >
-        <AccordionTrigger className="px-5 py-4 border-blue-20 hover:no-underline [&>svg]:hidden">
-          <div className="flex items-center justify-between w-full">
-            <StepHeader
-              step={2}
-              total={4}
-              title="Choose your plan"
-              icon={<PlanIcon />}
-            />
-            <ChevronDown />
-          </div>
-        </AccordionTrigger>
-        <AccordionContent className="px-5 pb-5 pt-2">
-          <div
-            className="
-           rounded-xl p-4 "
-          >
-            <PlanSelector />
-          </div>
-          <NextButton
-            label="Next: Add extra protection"
-            onClick={() => openNext("protection")}
-          />
-        </AccordionContent>
-      </AccordionItem>
-
-      {/* STEP 3: Sensors */}
-      <AccordionItem
-        id="accordion-sensors"
-        value="sensors"
-        className="border-t-[0.5px] border-b-[0.5px] border-[#1F1F1F]  shadow-sm overflow-hidden"
-      >
-        <AccordionTrigger className="px-5 py-4 hover:no-underline [&>svg]:hidden">
-          <div className="flex items-center justify-between w-full">
-            <StepHeader
-              step={3}
-              total={4}
-              title="Choose your sensors"
-              icon={
-                <img
-                  src={photo}
-                  alt="Sensors"
-                  className="w-[18px] h-[18px] object-contain flex-shrink-0"
-                />
-              }
-            />
-            <div className="flex items-center gap-1">
-              {sensorsCount > 0 && (
-                <span className="text-xs font-bold text-[#4E2FD2] mr-1">
-                  {sensorsCount} selected
-                </span>
-              )}
-              <ChevronDown />
+          <div className="flex flex-col w-full">
+            <div className="px-2">
+              <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+                Step 2 of 4
+              </span>
             </div>
-          </div>
-        </AccordionTrigger>
-        <AccordionContent className="px-4 pb-5 pt-2">
-          <div className="  rounded-xl p-3">
-            <ProductGrid products={sensors} section="sensors" />
-          </div>
-          <NextButton
-            label="Next: Choose your plan"
-            onClick={() => openNext("plan")}
-          />
-        </AccordionContent>
-      </AccordionItem>
-
-      {/* STEP 4: Protection */}
-      <AccordionItem
-        id="accordion-protection"
-        value="protection"
-        className="border-t-[0.5px] border-b-[0.5px] border-[#1F1F1F]  shadow-sm overflow-hidden"
-      >
-        <AccordionTrigger className="px-5 py-4 hover:no-underline [&>svg]:hidden">
-          <div className="flex items-center justify-between w-full">
-            <StepHeader
-              step={3}
-              total={4}
-              title="Add extra protection"
-              icon={
-                <img
-                  src={photo2}
-                  alt="Sensors"
-                  className="w-[18px] h-[18px] object-contain flex-shrink-0"
+            <AccordionItem
+              id="accordion-plan"
+              value="plan"
+              className="border-t-[0.5px] border-b-[0.5px] border-[#1F1F1F] shadow-sm overflow-hidden"
+            >
+              <AccordionTrigger className="px-2 py-4  hover:no-underline [&>svg]:hidden">
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-1.5 flex-1">
+                    <PlanIcon />
+                    <span className="text-sm font-bold text-gray-800 leading-tight">
+                      Choose your plan
+                    </span>
+                  </div>
+                  <ChevronDown />
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-5 pb-5 pt-2">
+                <div className="rounded-xl p-4">
+                  <PlanSelector />
+                </div>
+                <NextButton
+                  label="Next: Add extra protection"
+                  onClick={() => openNext("protection")}
                 />
-              }
-            />
-            <div className="flex items-center gap-1">
-              {protectionCount > 0 && (
-                <span className="text-xs font-bold text-[#4E2FD2] mr-1">
-                  {protectionCount} selected
-                </span>
-              )}
-              <ChevronDown />
+              </AccordionContent>
+            </AccordionItem>
+          </div>
+
+          {/* STEP 3: Sensors */}
+          <div className="flex flex-col w-full">
+            <div className="px-2" >
+              <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+                Step 3 of 4
+              </span>
             </div>
+            <AccordionItem
+              id="accordion-sensors"
+              value="sensors"
+              className="border-t-[0.5px] border-b-[0.5px] border-[#1F1F1F] shadow-sm overflow-hidden"
+            >
+              <AccordionTrigger className="px-2 py-4 hover:no-underline [&>svg]:hidden">
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-1.5 flex-1">
+                    <img
+                      src={photo}
+                      alt="Sensors"
+                      className="w-[18px] h-[18px] object-contain flex-shrink-0"
+                    />
+                    <span className="text-sm font-bold text-gray-800 leading-tight">
+                      Choose your sensors
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {sensorsCount > 0 && (
+                      <span className="text-xs font-bold text-[#4E2FD2] mr-1">
+                        {sensorsCount} selected
+                      </span>
+                    )}
+                    <ChevronDown />
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-4 pb-5 pt-2">
+                <div className="rounded-xl p-3">
+                  <ProductGrid products={sensors} section="sensors" />
+                </div>
+                <NextButton
+                  label="Next: Choose your plan"
+                  onClick={() => openNext("plan")}
+                />
+              </AccordionContent>
+            </AccordionItem>
           </div>
-        </AccordionTrigger>
-        <AccordionContent className="px-4 pb-5 pt-2">
-          <div className=" rounded-xl p-3 ">
-            <ProductGrid products={protection} section="protection" />
+
+          {/* STEP 4: Protection */}
+          <div className="flex flex-col w-full">
+            <div className="px-2">
+              <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+                Step 4 of 4
+              </span>
+            </div>
+            <AccordionItem
+              id="accordion-protection"
+              value="protection"
+              className="border-t-[0.5px] border-b-[0.5px] border-[#1F1F1F] shadow-sm overflow-hidden"
+            >
+              <AccordionTrigger className="px-2 py-4 hover:no-underline [&>svg]:hidden">
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-1.5 flex-1">
+                    <img
+                      src={photo2}
+                      alt="Protection"
+                      className="w-[18px] h-[18px] object-contain flex-shrink-0"
+                    />
+                    <span className="text-sm font-bold text-gray-800 leading-tight">
+                      Add extra protection
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {protectionCount > 0 && (
+                      <span className="text-xs font-bold text-[#4E2FD2] mr-1">
+                        {protectionCount} selected
+                      </span>
+                    )}
+                    <ChevronDown />
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-4 pb-5 pt-2">
+                <div className="rounded-xl p-3">
+                  <ProductGrid products={protection} section="protection" />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
           </div>
-        </AccordionContent>
-      </AccordionItem>
     </Accordion>
+      </div>
   );
 }

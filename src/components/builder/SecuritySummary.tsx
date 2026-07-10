@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import type { RootState } from "../../store/store";
+
 import { saveBuilder } from "../../store/builderThunks";
 import { toast } from "sonner";
 import {
@@ -91,7 +91,7 @@ export function SecuritySummary() {
   const selectedItems = useAppSelector(selectSelectedItems);
   const { originalTotal, discountedTotal, savings } =
     useAppSelector(selectTotalPrice);
-  const fullState = useAppSelector((state: RootState) => state);
+
 
   const cameras = selectedItems.filter((i) => i.section === "cameras");
   const plans = selectedItems.filter((i) => i.section === "plans");
