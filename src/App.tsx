@@ -32,7 +32,7 @@ export default function App() {
             "
           >
             {/* ── Mobile-only: REVIEW label ── */}
-            <p className="sm:hidden text-[10px] font-black tracking-widest text-gray-400 uppercase mb-2 pb-10">
+            <p className="sm:hidden text-[10px] font-black tracking-widest text-gray-400 uppercase mb-2 ">
               Review
             </p>
             <SecuritySummary />

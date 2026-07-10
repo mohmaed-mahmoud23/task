@@ -227,7 +227,7 @@ export function SecuritySummary() {
             >
               Your security system
             </h2>
-            <p className="text-[11px] text-gray-500 mt-0.5 leading-snug">
+            <p className="mt-1 max-w-[400px] text-[11px] font-normal leading-[15px] text-[#6B7280]">
               Review your personalized protection system designed to keep what
               matters most safe.
             </p>
@@ -310,11 +310,18 @@ export function SecuritySummary() {
             />
             <div className="flex flex-row items-baseline gap-2 text-right">
               {originalTotal > discountedTotal && (
-                <span className="text-xs text-gray-400 line-through leading-none">
+                <span className="text-[22px] text-gray-400 line-through leading-none">
                   ${originalTotal.toFixed(2)}
                 </span>
               )}
-              <span className="text-2xl font-black text-violet-700 leading-none">
+              <span
+                className="text-[#4E2FD2] leading-[32px]"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "28px",
+                  letterSpacing: "-0.13%",
+                }}
+              >
                 ${discountedTotal.toFixed(2)}
               </span>
             </div>
