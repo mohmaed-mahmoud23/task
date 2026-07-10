@@ -210,17 +210,17 @@ export function ProductCard({ product, section }: ProductCardProps) {
             }
           />
 
-          <div className="flex flex-col items-end lg:flex-row lg:items-center lg:gap-1.5">
-            {" "}
+          <div className="flex items-center justify-end gap-1 whitespace-nowrap">
             {product.originalPrice > product.discountedPrice &&
               !product.isFree && (
-                <span className="text-[10px] text-red-500 line-through leading-none lg:leading-normal xl:leading-none">
+                <span className="text-[16px] font-normal text-[#F15B5B] line-through">
                   ${product.originalPrice.toFixed(2)}
                 </span>
               )}
+
             <span
-              className={`text-[16px] font-light leading-none lg:leading-normal xl:leading-none mt-0.5 lg:mt-0 xl:mt-0.5 ${
-                product.isFree ? "text-emerald-600" : "text-gray-500"
+              className={`text-[16px] font-normal leading-none ${
+                product.isFree ? "text-emerald-600" : "text-[#6B7280]"
               }`}
             >
               {product.isFree
